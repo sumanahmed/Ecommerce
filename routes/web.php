@@ -22,8 +22,23 @@ Route::get('/direct-add-to-cart/{id}', 'CartController@directAddToCart');
 Route::get('/delete-cart-product/{rowId}', 'CartController@deleteCartProduct');
 
 Route::get('/checkout','CheckoutController@index');
+Route::post('/customer-login','CheckoutController@customerLogin');
+Route::post('/customer-logout','CheckoutController@customerLogout');
+
 Route::post('/new-customer','CheckoutController@saveCustomerInfo');
 Route::get('/shipping-info','CheckoutController@showShippingInfo');
+Route::post('/new-shipping','CheckoutController@saveShippingInfo');
+Route::get('/payment-info','CheckoutController@showPaymentInfo');
+Route::post('/new-order','CheckoutController@saveOrderInfo');
+
+//show order in bakc end
+Route::get('/order-info','OrderController@showOrderInfo');
+Route::get('/view-order-details/{id}','OrderController@viewOrderDetail');
+Route::get('/view-order-invoice/{id}','OrderController@viewOrderInvoice');
+
+//PDF uses
+Route::get('/pdf','OrderController@myPdf');
+Route::get('/download-invoice/{id}','OrderController@downloadOrderInvoice');
 
 
 
@@ -50,16 +65,20 @@ Route::post('/update-brand', 'BrandController@updateBrand');
 Route::get('/delete-brand/{id}', 'BrandController@deleteBrand');
 
 //Product Controller
-Route::get('/add-product', 'ProductController@addProduct');
-Route::post('/save-product', 'ProductController@saveProductInfo');
-Route::get('/manage-product', 'ProductController@manageProductInfo');
-Route::get('/view-product/{id}', 'ProductController@viewProductInfo');
-Route::get('/unpublished-product/{id}', 'ProductController@unpublishedProduct');
-Route::get('/published-product/{id}', 'ProductController@publishedProduct');
-Route::get('/edit-product/{id}', 'ProductController@editProductInfo');
-Route::post('/update-product', 'ProductController@updateProductInfo');
-Route::get('/delete-product/{id}', 'ProductController@deleteProductInfo');
-Route::get('/show-product', 'ProductController@showProductInfo');
+Route::group(['middleware' => 'ProductMiddleware'], function(){
+
+    Route::get('/add-product', 'ProductController@addProduct');
+    Route::post('/save-product', 'ProductController@saveProductInfo');
+    Route::get('/manage-product', 'ProductController@manageProductInfo');
+    Route::get('/view-product/{id}', 'ProductController@viewProductInfo');
+    Route::get('/unpublished-product/{id}', 'ProductController@unpublishedProduct');
+    Route::get('/published-product/{id}', 'ProductController@publishedProduct');
+    Route::get('/edit-product/{id}', 'ProductController@editProductInfo');
+    Route::post('/update-product', 'ProductController@updateProductInfo');
+    Route::get('/delete-product/{id}', 'ProductController@deleteProductInfo');
+    Route::get('/show-product', 'ProductController@showProductInfo');
+
+});
 
 
 //Slider Manages Code
@@ -75,6 +94,7 @@ Route::get('/delete-slider/{id}', 'SliderController@deleteSliderInfo');
 //Home Offer code
 Route::get('/add-offer', 'HomeofferController@addHomeOffer');
 Route::post('/new-offer', 'HomeofferController@saveHomeOffer');
+
 
 
 

@@ -2,13 +2,19 @@
     <div class="header-top">
         <div class="container">
             <div class="top-left">
-                <a href="#"> Help  <i class="glyphicon glyphicon-phone" aria-hidden="true"></i> +0123-456-789</a>
+                <a href="{{ url('/') }}"> Help  <i class="glyphicon glyphicon-phone" aria-hidden="true"></i> +0123-456-789</a>
             </div>
             <div class="top-right">
                 <ul>
-                    <li><a href="checkout.html">Checkout</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="registered.html"> Create Account </a></li>
+                    @if( Session::get('customerId'))
+                        <li><a href="#" onclick="event.preventDefault(); document.getElementById('customerLogoutForm').submit();">Logout</a></li>
+                        <form action="{{ url('/customer-logout') }}" method="POST" id="customerLogoutForm">
+                            {{ csrf_field() }}
+                        </form>
+                    @else
+                        <li><a href="{{ url('/checkout') }}">Login</a></li>
+                        <li><a href="{{ url('/checkout') }}"> Create Account </a></li>
+                    @endif
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -18,7 +24,7 @@
         <div class="container">
             <div class="logo-nav">
                 <div class="logo-nav-left">
-                    <h1><a href="index.html">New Shop <span>Shop anywhere</span></a></h1>
+                    <h1><a href="{{ url('/') }}">New Shop <span>Shop anywhere</span></a></h1>
                 </div>
                 <div class="logo-nav-left1">
                     <nav class="navbar navbar-default">
@@ -54,13 +60,18 @@
                 </div>
                 <div class="header-right2">
                     <div class="cart box_1">
-                        <a href="checkout.html">
-                            <h3> <div class="total">
-                                    <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)</div>
-                                <img src="{{ asset('/front/') }}/images/bag.png" alt="" />
-                            </h3>
-                        </a>
-                        <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+
+
+                        @if( Cart::count() == 0 )
+                            <p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+                        @else
+                            <a href="{{ url('/show-cart') }}">
+                                <h3> <div class="total">
+                                        TK. {{ Session::get('grand_total') }} ({{ Cart::count() }} items)</div>
+                                    <img src="{{ asset('/front/') }}/images/bag.png" alt="" />
+                                </h3>
+                            </a>
+                        @endif
                         <div class="clearfix"> </div>
                     </div>
                 </div>

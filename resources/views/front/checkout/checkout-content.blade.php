@@ -18,7 +18,7 @@
                         <div class="panel-body">
                             <h1 class="text-success text-center">Login Form</h1>
                             <hr>
-                            <form action="" method="post" class="form-horizontal">
+                            <form action="{{ url('/customer-login') }}" method="post" class="form-horizontal">
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="email" class="col-sm-3">Email Address</label>

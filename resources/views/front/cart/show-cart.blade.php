@@ -67,10 +67,17 @@
                     <tr>
                         <th>Grand Total</th>
                         <td>BDT {{ $grandTotal = ($sum-$discount)+$tax }}</td>
+                        {{ Session::put('grand_total', $grandTotal) }}
                     </tr>
                 </table>
                 <a href="{{ url('/') }}" class="btn btn-success">Continue Shopping</a>
+                @if( Session::get('customerId') && Session::get('shippingId') )
+                    <a href="{{ url('/payment-info') }}" class="btn btn-success">Checkout</a>
+                @elseif( Session::get('customerId') )
+                    <a href="{{ url('/shipping-info') }}" class="btn btn-success">Checkout</a>
+                @else
                 <a href="{{ url('/checkout') }}" class="btn btn-success">Checkout</a>
+                @endif
             </div>
         </div>
         <!--new-arrivals-->
